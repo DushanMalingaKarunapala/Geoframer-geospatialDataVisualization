@@ -1,0 +1,398 @@
+{% extends 'basehome.html' %}
+
+{% block content %}
+<div id="map"></div>
+<div id="keplergl_map"></div>
+<div id="myModal" class="modal">
+  <div id="success-messages" style="width: 800px; margin-left:550px; margin-top: 10px; display:block;"></div>
+  <div class="modal-content" style="height: fit-content; margin-top:  100px; margin-bottom:100px">
+    <span class="close">&times;</span>
+    <p>Please choose which type of map you want to create and select a data source:</p>
+    <form id="mapForm" >
+      {% csrf_token %}
+      <div class="mb-3">
+        <div id="#map_type">
+          <label for="map_type">Map Type:</label>
+          <select id="map_type" name="map_type">
+            <option value="ClimateData">Climate Data</option>
+            <option value="Geological_Data">Geological Data</option>
+          </select>
+        </div>
+        <div id="#sub_map_type">
+          <label for="sub_map_type">Sub Map Type:</label>
+          <select id="sub_map_type" name="sub_map_type">
+            <option value="ClimateData">Temperature</option>
+            <option value="ClimateData">Precipitation</option>
+            <option value="ClimateData">Humidity</option>
+            <option value="Geological_Data">Rocks</option>
+            <option value="Geological_Data">Earthquakes</option>
+            <option value="Geological_Data">Soil Type</option>
+          </select>
+        </div>
+      </div>
+      <div id="#dataSource" class="mb-3">
+        <label for="dataSource" class="form-label">Please choose a data source:</label>
+        <input type="radio" id="newData" name="dataSource" value="newData" checked>
+        <label for="newData">Create New Data</label><br>
+        <input type="radio" id="csvFile" name="dataSource" value="csvFile">
+        <label for="csvFile">CSV File</label><br>
+        <input type="radio" id="jsonFile" name="dataSource" value="jsonFile">
+        <label for="jsonFile">JSON File</label><br>
+      </div>
+      <button type="button" class="btn btn-primary" id="nextbtn">Next</button>
+    </form>
+  </div>
+</div>
+
+
+<div id="newDataModal" class="modal" >
+  <div class="modal-content" style="height: fit-content; margin-top:100px" >
+    <span class="close">&times;</span>
+    <p>Please enter the data for the selected map:</p>
+    <form id="newDataForm" method="post" action="/create_map/">
+      {% csrf_token %}
+      <div id="newDataFields"></div>
+      <button type="submit" class="btn btn-primary" id = "submitform">Create Map</button>
+    </form>
+    <button class="back-btn btn btn-secondary">Back</button>
+  </div>
+</div>
+
+<div id="csvFileModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p>Please upload a CSV file for the selected map:</p>
+    <form id="csvFileForm" method="post" action="/upload_csv/">
+      {% csrf_token %}
+      <input type="file" name="csvFile" accept=".csv">
+      <button type="submit" class="btn btn-primary" id = "submitform">Upload</button>
+    </form>
+    <button class="back-btn btn btn-secondary">Back</button>
+  </div>
+</div>
+
+<div id="jsonFileModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p>Please upload a JSON file for the selected map:</p>
+    <form id="jsonFileForm" method="post" action="/upload_json/">
+      {% csrf_token %}
+      <input type="file" name="jsonFile" accept=".json">
+      <button type="submit" class="btn btn-primary" id = "submitform" >Upload</button>
+    </form>
+    <button class="back-btn btn btn-secondary">Back</button>
+  </div>
+</div>
+
+  
+</div>
+
+</div>
+<script>
+  $(document).ready(function() {
+    // Populate options for sub_map_type based on selected map_type
+    $('#map_type').on('change', function() {
+      var selectedMapType = $('#map_type').val();
+      var subMapTypeDropdown = $('#sub_map_type');
+      subMapTypeDropdown.empty();
+
+      if (selectedMapType === 'ClimateData') {
+        // Fetch climate data types and populate options
+        $.get('/fetch_climate_data_types/', function(data) {
+          $.each(data.types, function(index, type) {
+            subMapTypeDropdown.append('<option value="' + type + '">' + type + '</option>');
+          });
+        });
+      } else if (selectedMapType === 'Geological_Data') {
+        // Fetch geological data types and populate options
+        $.get('/fetch_geological_data_types/', function(data) {
+          $.each(data.types, function(index, type) {
+            subMapTypeDropdown.append('<option value="' + type + '">' + type + '</option>');
+          });
+        });
+      }
+    });
+
+    var modalObject = document.getElementById("myModal");
+    var spanObject = document.getElementsByClassName("close")[0];
+
+    modalObject.style.display = "block";
+
+    spanObject.onclick = function() {
+      modalObject.style.display = "none";
+    };
+
+    window.onclick = function(event) {
+      if (event.target == modalObject) {
+        modalObject.style.display = "none";
+      }
+    };
+  });
+
+
+
+  document.addEventListener('DOMContentLoaded', function() {
+    var modal = document.getElementById('myModal');
+    var newDataModal = document.getElementById('newDataModal');
+    var csvFileModal = document.getElementById('csvFileModal');
+    var jsonFileModal = document.getElementById('jsonFileModal');
+    var span = document.getElementsByClassName('close');
+
+    var subMapTypeSelect = document.getElementById('sub_map_type');
+    var dataSourceRadio = document.getElementsByName('dataSource');
+    var nextbtn = document.getElementById('nextbtn');
+    var backBtns = document.getElementsByClassName('back-btn');
+
+    var backBtns = document.getElementsByClassName('back-btn'); <!-- back functionality-->
+      for (var i = 0; i < backBtns.length; i++) {
+      backBtns[i].addEventListener('click', function() {
+        modal.style.display = 'block';
+        newDataModal.style.display = 'none';
+        csvFileModal.style.display = 'none';
+        jsonFileModal.style.display = 'none';
+      });
+    }
+
+    nextbtn.addEventListener('click', function() {                 
+      var selectedMapType = document.getElementById('map_type').value; /*next functionality*/
+      var selectedSubMapType = subMapTypeSelect.value;
+      var selectedDataSource;
+
+      for (var i = 0; i < dataSourceRadio.length; i++) {
+        if (dataSourceRadio[i].checked) {
+          selectedDataSource = dataSourceRadio[i].value;
+          break;
+        }
+      }
+
+      if (selectedDataSource === 'newData') {
+        newDataModal.style.display = 'block';
+        var newDataFieldsDiv = document.getElementById('newDataFields');
+        newDataFieldsDiv.innerHTML = '';
+      
+        // Adding input fields based on the selected subMapType
+        var formHTML = '';
+        if (selectedMapType === 'ClimateData') {
+          if (selectedSubMapType === 'Temperature') {
+            formHTML = `
+              <form id="temperatureForm">
+                {% csrf_token %}
+                {{ TemperatureMapForm.as_p }}
+              </form>
+            `;
+          } else if (selectedSubMapType === 'Precipitation') {
+            formHTML = `
+              <form id="precipitationForm" method = "post" action ="/create/">
+                {% csrf_token %}
+                {{ PrecipitationForm.as_p }}
+              </form>
+            `;
+          } else if (selectedSubMapType === 'Humidity') {
+            formHTML = `
+              <form id="humidityForm">
+                {% csrf_token %}
+                {{ HumidityMapForm.as_p }}
+              </form>
+            `;
+          }
+        } else if (selectedMapType === 'Geological_Data') {
+          if (selectedSubMapType === 'Rocks') {
+            formHTML = `
+              <form id="rocksForm">
+                {% csrf_token %}
+                {{ rocksForm.as_p }}
+              </form>
+            `;
+          } else if (selectedSubMapType === 'Earthquakes') {
+            formHTML = `
+              <form id="earthquakesForm" method = "post" action ="/create/" >
+                {% csrf_token %}
+                {{ EarthquakesForm.as_p }}
+              </form>
+            `;
+          } else if (selectedSubMapType === 'Soil Type') {
+            formHTML = `
+              <form id="soilTypeForm">
+                {% csrf_token %}
+                {{ SoilTypeForm.as_p }}
+              </form>
+            `;
+          }
+        }
+      
+        newDataFieldsDiv.innerHTML = formHTML;
+      }
+      
+         
+      
+      else if (selectedDataSource === 'csvFile') {
+        csvFileModal.style.display = 'block';
+      } else if (selectedDataSource === 'jsonFile') {
+        jsonFileModal.style.display = 'block';
+      }
+    });
+
+    for (var i = 0; i < span.length; i++) {
+      span[i].addEventListener('click', function() {
+        modal.style.display = 'none';
+        newDataModal.style.display = 'none';
+        csvFileModal.style.display = 'none';
+        jsonFileModal.style.display = 'none';
+      });
+    }
+
+    window.addEventListener('click', function(event) {
+      if (event.target == modal) {
+        modal.style.display = 'none';
+      } else if (event.target == newDataModal) {
+        newDataModal.style.display = 'none';
+      } else if (event.target == csvFileModal) {
+        csvFileModal.style.display = 'none';
+      } else if (event.target == jsonFileModal) {
+        jsonFileModal.style.display = 'none';
+      }
+    });
+  });
+
+
+  
+
+
+  
+  $(document).ready(function() {
+    // ...
+  
+    // Submit event handler for #newDataForm
+    $('#newDataForm').submit(function(event) {
+      event.preventDefault(); // Prevent default form submission
+  
+      // Create a new FormData object
+      var formData = new FormData();
+  
+      // Get the selected types
+      var mapType = $('#map_type').val();
+      var subMapType = $('#sub_map_type').val();
+      var dataSource = $('input[name=dataSource]:checked').val();
+      var selectedSubMapType = $('#sub_map_type').val();
+  
+      // Add the selected types to the formData
+      formData.append('mapType', mapType);
+      formData.append('subMapType', subMapType);
+      formData.append('dataSource', dataSource);
+      
+      if (selectedSubMapType === 'Earthquakes') {
+        // Get the form data from #earthquakesForm
+        var earthquakesFormData = $('#earthquakesForm').serializeArray();
+  
+        // Append the form data to formData
+        $.each(earthquakesFormData, function(index, field) {
+          formData.append(field.name, field.value);
+        });
+      }
+  
+      // Append the form data from #newDataForm
+      var newDataForm = document.getElementById('newDataForm');
+      var newDataFormData = new FormData(newDataForm);
+      for (var pair of newDataFormData.entries()) {
+        formData.append(pair[0], pair[1]);
+      }
+      $.ajax({
+        url: '/get/',
+        type: 'GET',
+        data: {subMapType: selectedSubMapType},
+        success: (response) => {
+            console.log('Sub-map type successfully set:', response);
+        },
+        error: (error) => {
+            console.error('Error setting sub-map type:', error);
+        }
+      });
+      // Send AJAX POST request
+      $.ajax({
+        url: '/create_map/',
+        type: 'POST',
+        data: formData,
+        processData: false, // Prevent jQuery from processing the data
+        contentType: false, // Prevent jQuery from setting the content type
+        success: (response) => {
+          // Assuming the response contains the submap type
+          const submapTypebro = selectedSubMapType;
+          console.log("aneemanda: ",submapTypebro)
+  
+          // Update the message and form action based on the submap type
+          let message, actionUrl;
+  
+          if (submapTypebro === 'Earthquakes') {
+              message = 'Earthquake data successfully saved! Do you want to generate the visualization?';
+              actionUrl = '{% url "earthquakes_map" %}';
+          } else if (submapTypebro === 'Precipitation') {
+              message = 'Precipitation data successfully saved! Do you want to generate the visualization?';
+              actionUrl = '{% url "precipitation_map" %}';
+          } else {
+              // Handle other submap types if needed
+              message = 'Data successfully saved yakooooo! Do you want to generate the visualization?';
+              actionUrl = '#';  // Default action
+          }
+  
+           // Update the HTML content dynamically
+          $("#success-messages").html(`
+              <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                  <div id="yesno">
+                      <form action="${actionUrl}" method="post">
+                          {% csrf_token %}
+                          <p>${message}</p>
+                          <button type="submit" class="btn btn-success" name="answer" value="yes">Yes</button>
+                          <button type="submit" class="btn btn-danger" name="answer" value="no">No</button>
+                      </form>
+                  </div>
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+          `);
+          setInterval(function(){
+            $('.alert').fadeOut();
+          },5000)
+          console.log('ballige puta')// Handle success response
+          
+        
+        },
+        error: function(xhr, status, error) {
+          // Handle error response
+          console.error(error);
+        }
+      });
+    });
+  
+    // ...
+  });
+  
+
+
+
+  //success ajax
+
+  /*$(document).ready(function() {
+    $('#yesno-form').submit(function(event) {
+      event.preventDefault();  // Prevent the default form submission
+  
+      var form = $(this);
+      var formData = form.serialize();  // Get the form data
+  
+      $.ajax({
+        type: 'POST',
+        url: form.attr('action'),
+        data: formData,
+        success: function(response) {
+          // Handle the success response
+          $('#success-message').html(response);  // Replace the content with the response HTML
+        },
+        error: function(xhr, status, error) {
+          // Handle the error response
+          console.log(error);
+        }
+      });
+    });
+  }); */
+  
+</script>    
+
+{% endblock %}

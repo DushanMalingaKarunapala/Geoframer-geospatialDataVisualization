@@ -1,0 +1,74 @@
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-light bg-dark" style="position: fixed; top:0; left:0; right:0; z-index:1;" >
+    <div class="container-fluid">
+      <a class="navbar-brand" style="color: aliceblue;" href="{% url 'home' %}">GeoFramer</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="nav nav-pills me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link " aria-current="page" href="{% url 'home' %}">Home</a>
+          </li>
+          {%if user.is_authenticated%}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+            </li>
+          {%else%}  
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'login' %}">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'register' %}">Register</a>
+            </li>
+          {%endif%}
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Documentation
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="#">Action</a></li>
+              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+          </li>
+        </ul>
+        <div class="profile">
+          {%if user.is_authenticated%}
+          <div class="profile-message" >
+            <h4>Welcome {{user.username}}</h4>
+          </div>
+          {%endif%}
+          <div class="profile-image">
+            
+            <a href='{% url "myprofile" %}'><img src="{% static 'images/icons/maleuser.png'%}"></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  {%if user.is_authenticated%}
+  
+        
+    <input type="checkbox" id="check">
+    <label for="check">
+      <i class="fas fa-bars" id="btn"></i>
+      <i class="fas fa-times" id="cancel"></i>
+    </label>
+    <div class="sidebar">
+        <header>Navigator</header>
+      <ul>
+        <li><a href="{% url 'Deshome' %}"><i class="fas fa-qrcode"></i>Design</a></li>
+        <li><a href="{% url 'modelsHome' %}"><i class="fas fa-link"></i>3D Models</a></li>
+        <li><a href="{% url 'visualizationsHome' %}"><i class="fas fa-stream"></i>Maps</a></li>
+        <li><a href="#"><i class="fas fa-calendar-week"></i>Events</a></li>
+        <li><a href="#"><i class="far fa-question-circle"></i>About</a></li>
+        <li><a href="#"><i class="fas fa-sliders-h"></i>Services</a></li>
+        <li><a href="#"><i class="far fa-envelope"></i>Contact</a></li>
+    </ul>
+    </div>
+  
+{%endif%}  
+  
+ 

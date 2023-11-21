@@ -1,0 +1,91 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'homestyle.css' %}">
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+    <link rel="stylesheet" href="{% static 'style1.css' %}">
+    <link rel="stylesheet" href="{% static 'style3.css' %}">
+    
+
+    
+    
+
+
+    <!-- <link rel="stylesheet" href="{% static 'style3.css' %}"> -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"/>
+    <link href="http://fonts.googleapis.com/css?family=Roboto:300,400,700|" rel="stylesheet" type="text/css">
+    <link href="{% static 'fonts/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/fontawesome.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <title>Document</title>
+    <style>
+        
+
+    </style>
+</head>
+<body>
+    {%include 'navbar.html'%}
+    
+    {%block content%}
+
+    {%endblock%}
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  
+  <script src="{% static 'app.js'%}"></script>
+  <script src="{%static 'js/jquery-1.11.1.min.js' %}"></script>
+  <script src="{%static 'js/plugins.js' %}"></script>
+  <script src="{%static 'js/app.js' %}"></script>
+  <!-- Your HTML code here -->
+
+  <script>
+    // Add smooth scrolling when the Find button is clicked
+    const findForm = document.querySelector('.find-location');
+    const findBtn = findForm.querySelector('input[type="submit"]');
+    const forecastContainer = document.querySelector('.forecast-container');
+  
+    findBtn.addEventListener('click', function(event) {
+      event.preventDefault();
+  
+      // Submit the form
+      findForm.submit();
+  
+      // Wait for the form submission to complete before triggering the animation
+      setTimeout(function() {
+        forecastContainer.scrollIntoView({
+          behavior: 'smooth'
+        });
+      }, 1000000000); // Adjust the delay time as needed
+    });
+  </script>
+  
+  
+  
+  
+
+  
+  
+  
+
+</body>
+
+* <!-----Script-->
+<!-----J query-->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+
+<!---Owl carosoul----->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js" integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+<!------App script----->
+<script src="{% static 'appcarousel.js'%}"></script>
+</body>
+</html>

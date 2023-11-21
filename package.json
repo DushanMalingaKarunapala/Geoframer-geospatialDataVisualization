@@ -1,0 +1,26 @@
+{
+  "name": "GeospatialApp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "d3-color": "^3.1.0",
+    "kepler.gl": "^0.0.1",
+    "marked": "^5.1.0",
+    "react": "^18.2.0",
+    "react-redux": "^8.1.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "resolve": "npx npm-force-resolutions"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "resolutions": {
+    "node-fetch": "2.6.7",
+    "marked": "5.1.10",
+    "d3-color": "3.1.0",
+    "request": "2.88.3"
+  }
+}

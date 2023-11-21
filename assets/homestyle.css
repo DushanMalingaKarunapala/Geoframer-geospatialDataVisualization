@@ -1,0 +1,38 @@
+.side-bar {
+    
+    position: fixed;
+    top: 55px;
+    left: 0;
+    bottom: 0;
+    width: 100px;
+    z-index: 200;
+    background-color: rgba(21, 21, 23, 0.862);
+}
+
+.icons-side-bar {
+    display: flex;
+
+    height: 76px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+
+}
+
+.icons-side-bar:hover {
+    background-color: rgb(157, 136, 20);
+}
+
+.icons-side-bar img { 
+    /* to target all image tags inside  icons-side-bar class*/
+    height: 25px;
+
+}
+
+.icons-side-bar div { 
+    /* to target all div tags inside  icons-side-bar class*/
+     font-family: roboto, Arial;
+    font-size: 10px;
+    margin-top: 4px;
+}

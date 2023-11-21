@@ -1,0 +1,124 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900");
+*{
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  text-decoration: none;
+}
+body {
+  font-family: 'Poppins', sans-serif;
+  font-style: none;
+  
+}
+.sidebar {
+  position: fixed;
+  font-style: none;
+  top: 55px;
+  left: -250px;
+  width: 250px;
+  height: 100%;
+  background: hsla(0, 0%, 0%, 0.556);
+  transition: all .5s ease;
+  z-index: 1;
+}
+.sidebar header {
+  font-size: 22px;
+  color: white;
+  line-height: 70px;
+  text-align: center;
+  background: #0793ff;
+  user-select: none;
+}
+.sidebar ul a{
+  display: block;
+  height: 100%;
+  width: 100%;
+  font-style: none;
+  line-height: 65px;
+  font-size: 20px;
+  color: white;
+  padding-left: 40px;
+  box-sizing: border-box;
+  border-bottom: 1px solid black;
+  border-top: 1px solid rgba(255,255,255,.1);
+  transition: .4s;
+}
+ul li:hover a{
+  padding-left: 50px;
+}
+.sidebar ul a i{
+  margin-right: 16px;
+}
+#check{
+  display: none;
+}
+label #btn,label #cancel{
+  position: absolute;
+  background: #042331;
+  border-radius: 3px;
+  cursor: pointer;
+}
+label #btn{
+  position: fixed;
+  left: 40px;
+  top: 80px;
+  font-size: 35px;
+  color: white;
+  padding: 6px 12px;
+  transition: all .5s;
+}
+label #cancel{
+  position: fixed;
+  z-index: 1111;
+  left: -195px;
+  top: 65px;
+  font-size: 30px;
+  color: #f90000;
+  padding: 4px 9px;
+  transition: all .5s ease;
+}
+#check:checked ~ .sidebar{
+  left: 0;
+}
+#check:checked ~ label #btn{
+  left: 250px;
+  opacity: 0;
+  pointer-events: none;
+}
+#check:checked ~ label #cancel{
+  left: 195px;
+}
+#check:checked ~ section{
+  margin-left: 250px;
+}
+section{
+  background: url(bg.jpeg) no-repeat;
+  background-position: center;
+  background-size: cover;
+  height: 100vh;
+  transition: all .5s;
+}
+.background-image{
+  background-position: center;
+  background-size: cover;
+}
+
+.profile{
+  margin-right: 30px;
+}
+
+
+.profile-message{
+  display: inline-block;
+  padding-left: 30px;
+  margin:auto 20px;
+
+  color: #0091f9;
+}
+.profile-image{
+  display: inline-block;
+  margin-left: 20px;
+}
+.site-header{
+  margin-top: 0;
+}

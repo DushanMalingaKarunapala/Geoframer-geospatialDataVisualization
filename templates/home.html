@@ -1,0 +1,279 @@
+{% extends 'base.html'%}
+
+{% load static %}
+
+{% block title %}{{city_name}} {% endblock title %}
+
+{% block content %}
+
+<div class="site-content">
+  {%if user.is_authenticated%} <!--- show this content only if user is authenticated or logged in to the system-->
+  <div class="site-header">
+    <div class="container">
+      <a href="{% url 'home' %}" class="branding">
+        <img src="{%static 'images/logo.png' %}" alt="" class="logo">
+        <div class="logo-type">
+          <h1 class="site-title"> Geoframer Weathercast </h1>
+          <small class="site-description">Real time weather forecast</small>
+        </div>
+      </a>
+
+      <!-- Default snippet for navigation -->
+      <div class="main-navigation">
+        <button type="button" class="menu-toggle"><i class="fa fa-bars"></i></button>
+        <ul class="menu">
+          <li class="menu-item current-menu-item" id="omar"><a href="{% url 'home' %}">Home</a></li>
+
+        </ul> <!-- .menu -->
+      </div> <!-- .main-navigation -->
+
+      <div class="mobile-navigation"></div>
+
+    </div>
+  </div> <!-- .site-header -->
+  {%else%} <!--- show this content only if user is not authenticated or not logged in to the system-->
+  <div class="site-headernew">
+    <div class="containernew">
+      <a href="{% url 'home' %}" class="brandingnew">
+        <img src="{%static 'images/logo.png' %}" alt="" class="logonew">
+        <div class="logo-typenew">
+          <h1 class="site-titlenew"> Geoframer Weathercast </h1>
+          <small class="site-descriptionnew">Real time weather forecast</small>
+        </div>
+      </a>
+
+      <!-- Default snippet for navigation -->
+      <div class="main-navigation">
+        <button type="button" class="menu-toggle"><i class="fa fa-bars"></i></button>
+        <ul class="menu">
+          <li class="menu-item current-menu-item" id="omar"><a href="{% url 'home' %}">Home</a></li>
+
+        </ul> <!-- .menu -->
+      </div> <!-- .main-navigation -->
+
+      <div class="mobile-navigation"></div>
+
+    </div>
+  </div> <!-- .site-header -->
+  {%endif%}
+  <div class="container-current-weather">
+    <div class="app-title">
+      <p>Current Weather</p>
+    </div>
+    <div class="notification"> </div>
+    <div class="weather-container">
+      <div class="weather-icon">
+        <img src="{%static 'icons/unknown.png'%}" alt="">
+      </div>
+      <div class="temperature-value">
+        <p>- °<span>C</span></p>
+      </div>
+      <div class="temperature-description">
+        <p> - </p>
+      </div>
+      <div class="location">
+        <p>-</p>
+      </div>
+    </div>
+  </div>
+  <div class="hero" data-bg-image="{% static 'images/banner.png' %}">
+    <div class="container">
+      <form action="{%url 'result'%}" class="find-location" method="post">
+        {% csrf_token%}
+        <input type="text" name="city" placeholder="Enter your city name to findout how's the weather's like!..." required>
+        <input type="submit" value="Find">
+      </form>
+
+    </div>
+  </div>
+
+  
+</div>  
+
+{%include 'results.html'%}
+
+<div class="owl-carousel carousel-nav-center" id="hero-carousel">
+  <!-------Side Item---->
+  <div class="hero-slide-item">
+      <img src="{% static 'images/abe.png' %}">
+      <div class="overlay"></div>
+      <div class="hero-slide-item-content">
+          <div class="item-content-wrapper">
+              <div class="item-content-title top-down">
+                  <h4>Couter Strike GO For free</h4>
+
+              </div>
+              <div class="games-infos top down delay-2">
+                  <div class="game-info">
+                      <i class="bx bxs-star">
+                          <span>9.5</span>
+                      </i>
+                  </div>
+                  <div class="game-info">
+                      <i class="bx bxs-time">
+                          <span>Free to play</span>
+                      </i>
+                  </div>
+                  <div class="game-info">
+                          <span>HD</span>
+                  </div>
+                  <div class="game-info">
+                      <span>12+</span>
+                  </div>
+              </div>
+              <div class="item-content-description top-down delay-4">
+                 <P> Ace of games is the leading gaming store and blogging site in the internet.
+                  From here You can buy the latest AAA Title games for fair price.<br><br> You can also buy any
+                  gaming items such as laptops, PC's ,Keybords, Chairs, Headsets, Camera's, Etc.. And visit our website  blog
+                  page to know more about latest games and Gaming Accesories</P>
+              </div>
+              <div class="item-action top-down delay-6">
+                  <a href="" class="btn-btn-hover">
+                      <i class="bx bxs-right-arrow"></i>
+                      <span>Download Now</span>
+                  </a>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-------End slide item----->
+  <!-------Side Item---->
+  <div class="hero-slide-item">
+      <img src="{% static 'images/aneee.png' %}">
+      <div class="overlay"></div>
+      <div class="hero-slide-item-content">
+          <div class="item-content-wrapper">
+              <div class="item-content-title top-down">
+                  <h4>Far Cry New Dawn For <br>
+                  For Free!</h4>
+
+              </div>
+              <div class="games-infos top-down delay-2">
+                  <div class="game-info">
+                      <i class="bx bxs-star">
+                          <span>9.5</span>
+                      </i>
+                  </div>
+                  <div class="game-info">
+                      <i class="bx bxs-time">
+                          <span>Free to Play</span>
+                      </i>
+                  </div>
+                  <div class="game-info">
+                          <span>HD</span>
+                  </div>
+                  <div class="game-info">
+                      <span>16+</span>
+                  </div>
+              </div>
+              <div class="item-content-description top-down delay-4">
+                 <P> Ace of games is the leading gaming store and blogging site in the internet.
+                  From here You can buy the latest AAA Title games for fair price.<br><br> You can also buy any
+                  gaming items such as laptops, PC's ,Keybords, Chairs, Headsets, Camera's, Etc.. And visit our website  blog
+                  page to know more about latest games and Gaming Accesories</P>
+              </div>
+              <div class="item-action top-down delay-6">
+                  <a href="" class="btn-btn-hover">
+                      <i class="bx bxs-right-arrow"></i>
+                      <span>Play now</span>
+                  </a>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-------End slide item----->
+   <!-------Side Item---->
+   <div class="hero-slide-item">
+      <img src="{% static 'images/epaa.png' %}">
+      <div class="overlay"></div>
+      <div class="hero-slide-item-content">
+          <div class="item-content-wrapper">
+              <div class="item-content-title top-down">
+                  <h4>HIT MAN 3 <br>
+                     for free!</h4>
+
+              </div>
+              <div class="games-infos top-down delay-2">
+                  <div class="game-info">
+                      <i class="bx bxs-star">
+                          <span>9.5</span>
+                      </i>
+                  </div>
+                  <div class="game-info">
+                      <i class="bx bxs-time">
+                          <span>Free to Play</span>
+                      </i>
+                  </div>
+                  <div class="game-info">
+                          <span>HD</span>
+                  </div>
+                  <div class="game-info">
+                      <span>16+</span>
+                  </div>
+              </div>
+              <div class="item-content-description top-down delay-4">
+                 <P> Ace of games is the leading gaming store and blogging site in the internet.
+                  From here You can buy the latest AAA Title games for fair price.<br><br> You can also buy any
+                  gaming items such as laptops, PC's ,Keybords, Chairs, Headsets, Camera's, Etc.. And visit our website  blog
+                  page to know more about latest games and Gaming Accesories</P>
+              </div>
+              <div class="item-action top-down delay-6">
+                  <a href="" class="btn-btn-hover">
+                      <i class="bx bxs-right-arrow"></i>
+                      <span>Download Now</span>
+                  </a>
+              </div>
+          </div>
+      </div>
+  </div>
+  <!-------End slide item----->
+</div>
+
+
+
+
+
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="row" style="display:flex; border-style:none;">
+      <div class="col-md-4">
+        <h4>Stay Connected</h4>
+        <p>Subscribe to our newsletter for the latest updates and news in geospatial data visualization.</p>
+        <form action="#" class="subscribe-form">
+          <input type="text" placeholder="Enter your email..." required>
+          <input type="submit" value="Subscribe" required>
+        </form>
+      </div>
+      <div class="col-md-4">
+        <h4>Explore</h4>
+        <ul class="footer-links">
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Maps</a></li>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      <div class="col-md-4">
+        <h4>Connect With Us</h4>
+        <div class="social-links">
+          <a href="#" target="_blank"><i class="fa fa-globe"></i></a>
+          <a href="#" target="_blank"><i class="fa fa-star"></i></a>
+          <a target="_blank" href="#"><i class="fa fa-moon"></i></a>
+          <a target="_blank" href="https://www.twitter.com/"><i class="fa fa-twitter"></i></a>
+          <a target="_blank" href="https://www.linkedin.com/"><i class="fa fa-linkedin"></i></a>
+        </div>
+      </div>
+    </div>
+
+    <p class="colophon" style="color: white; text-align:center; margin:20px 0;">© 2023 GeoFramer. All rights reserved.</p>
+  </div>
+</footer>
+
+
+
+  
+
+  
+  {% endblock content %}
+

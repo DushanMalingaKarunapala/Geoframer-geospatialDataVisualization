@@ -1,0 +1,291 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900");
+*{
+    font-family: "Poppins";
+}
+
+body{
+    background-color: #293251;
+}
+
+.container-current-weather{
+    display: block;
+    position: absolute;
+    width: 300px;    
+    background-color: #0e121378;
+    
+    display: block;
+    margin: 50px auto;
+    
+    border-radius: 10px;
+    padding-bottom : 50px;
+    top: 10;
+    left: 200px;
+}
+
+.app-title{
+    width: 300px;
+    height: 50px;
+    border-radius: 10px 10px 0 0;
+}
+
+.app-title p{
+    text-align: center;
+    padding: 15px;
+    margin: 0 auto;
+    font-size: 1.2em;
+    color: #0076f4;
+}
+
+.notification{
+    background-color: #f8d7da;
+    display: none;
+}
+
+.notification p{
+    color: #721c24;
+    font-size: 1.2em;
+    margin: 0;
+    text-align: center;
+    padding: 10px 0;
+}
+
+.weather-container{
+    width: 300px;
+    height: 260px;
+    background-color: #F4F9FF;
+}
+
+.weather-icon{
+    width: 300px;
+    height: 128px;
+}
+
+.weather-icon img{
+    display: block;
+    margin: 0 auto;
+}
+
+.temperature-value{
+    width: 300px;
+    height:60px;
+}
+
+.temperature-value p{
+    padding: 0;
+    margin: 0;
+    color: #293251;
+    font-size: 4em;
+    text-align: center;
+    cursor: pointer;
+}
+
+.temperature-value p:hover{
+    
+}
+
+.temperature-value span{
+    color: #293251;
+    font-size: 0.5em;
+}
+
+.temperature-description{
+    
+}
+
+.temperature-description p{
+    padding: 8px;
+    margin: 0;
+    color: #293251;
+    text-align: center;
+    font-size: 1.2em;
+}
+
+.location{
+    
+}
+
+.location p{
+    margin: 0;
+    padding: 0;
+    color: #293251;
+    text-align: center;
+    font-size: 0.8em;
+}
+
+
+
+
+/*------hero section-------*/
+
+.hero-slide-item {
+    margin-top: 50px;
+    padding-top: 40%;
+    position:relative;
+    overflow:hidden;
+
+}
+.hero-slide-item img {
+    width: 100%;
+    position:relative;
+    top:-500px;
+    left:-610;
+    cursor: pointer;
+ 
+}
+.hero-slide-item-content {
+    position: absolute;
+    top: 0;
+    left: 40;
+    width: 40%;
+    height: 100%;
+    color:#fff;
+    display: flex;
+    padding-top:20px ;
+}
+.hero-slide-item-content h4{
+    color: #fff;
+    padding-left: 5px;
+    padding-bottom: 20px;
+}
+.hero-slide-item-content p {
+    color: #fff;
+    padding-left: 10px;
+    padding-top: 10px;
+}
+span{
+    color: #fff;
+    padding-left: 10px;
+    padding-bottom: 10px;
+}
+i{
+    color: #fff;
+    padding-left: 10px;
+    padding-top: 10px;
+}
+
+.item-content-wrapper {
+    background-color: rgb(0, 0, 0, 0.6);
+    margin-top: 80px;
+    height: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+ 
+}
+.item-content-wrapper::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0)); /*---usefull to blur the bakground color to a one direction*/
+}
+.item-content-title{
+
+    font-size: 5rem;
+    line-height: 5rem;
+    font-weight: 600;
+    padding-top: 0;
+
+}
+.games-infos {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: calc(var(--space-top)/2);
+}
+.games-info {
+    display: flex;
+    align-items: center;
+    font-size: -8rem;
+    font-weight: 600;
+
+
+}
+.item-action span {
+    
+    color: rgb(255, 255, 255);
+    padding-top: 20px;
+    border-radius: 1px;
+    box-shadow: 40px;
+    text-align: center;
+    transition: 1s;
+}
+.item-action span:hover {
+    color: rgb(255, 0, 0);
+
+  
+ 
+
+
+    /*-----owl carsoul navigator----*/
+}
+.carousel-nav-center {
+    position: relative;
+}
+.carousel-nav-center .owl-nav button i {
+    font-size: 4rem;
+    color:white;
+
+}
+.carousel-nav-center .owl-nav button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.carousel-nav-center .owl-nav .owl-prev {
+    position: absolute;
+    left: 5px;
+    visibility: visible;
+
+}
+.carousel-nav-center .owl-nav .owl-next {
+    position: absolute;
+    right:5px
+}
+.owl nav button {
+    border:none;
+    outline: none;
+
+}
+.owl nav button i {
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 100%;
+
+
+}
+.owl nav button i:hover  {
+    color: #f00;
+}
+
+/*------content slide down when sliding-----*/
+
+
+.top-down {
+    transform: translateY(-50%);
+    visibility: hidden;
+    opacity: 0;
+    transition: .5s ease-in-out;
+
+}
+.delay-2 {
+    transition-delay: 0.2s;
+}
+.delay-4 {
+    transition-delay: 0.4s;
+}
+.delay-6 {
+    transition-delay: 0.6s;
+}
+.delay-8 {
+    transition-delay: 0.8s;
+}
+
+.owl-item.active .top-down {
+    transform: translateY(0);
+    visibility: visible;
+    opacity: 1;
+}
+
