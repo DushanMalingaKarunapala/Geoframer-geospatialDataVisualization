@@ -1,0 +1,49 @@
+{%extends 'visualizationsbase.html'%} {%load static%} {%block content%}
+<style>
+  .container {
+    background-color: f0f0f0;
+  }
+  h3,
+  h4 {
+    color: black;
+  }
+  .back{
+    display: inline-block;
+    margin-top: 10px;
+    width: 100%;
+    
+    
+  }
+  .back button{
+    width: 80%;
+    margin-top:20px;
+    margin-left: 65px;
+  }
+</style>
+<div class="container">
+  <div class="row">
+    <div class="col-lg">
+      <h3>Payment Succcessfull!</h3>
+      <br />
+      <img src="{{mapproduct.thumbnail.url}}" />
+    </div>
+    <div class="col-lg">
+      <br />
+      <div class="card card-body">
+        <h3>Bought:{{mapproduct.title}}</h3>
+        <hr />
+        <h4>Paid : Rs{{mapproduct.price}}</h4>
+        <hr />
+        <!-- <div id="paypal-button-container"></div> -->
+        <button class="btn btn-success">
+          <a href="{% url 'download-map' pk=mapproduct.id %}">Download</a>
+        </button>
+      </div>
+      <div class="back">
+        <button class="btn btn-secondary"><a href="{% url 'visualizationsHome' %}">Back</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{%endblock%}

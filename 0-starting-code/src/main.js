@@ -18,14 +18,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import React from 'react';
-import document from 'global/document';
-import {Provider} from 'react-redux';
-import {hashHistory, Router, Route} from 'react-router';
-import {syncHistoryWithStore} from 'react-router-redux';
-import {render} from 'react-dom';
-import store from './store';
-import App from './app';
+import React from "react";
+import document from "global/document";
+import { Provider } from "react-redux";
+import { hashHistory, Router, Route } from "react-router";
+import { syncHistoryWithStore } from "react-router-redux";
+import { render } from "react-dom";
+import store from "./store";
+import App from "./app";
 
 const history = syncHistoryWithStore(hashHistory, store);
 
@@ -37,4 +37,4 @@ const Root = () => (
   </Provider>
 );
 
-render(<Root />, document.body.appendChild(document.createElement('div')));
+render(<Root />, document.body.appendChild(document.createElement("div")));

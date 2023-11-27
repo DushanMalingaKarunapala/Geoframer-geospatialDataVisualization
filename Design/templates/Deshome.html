@@ -13,21 +13,27 @@
       <div class="mb-3">
         <div id="#map_type">
           <label for="map_type">Map Type:</label>
-          <select id="map_type" name="map_type">
-            <option value="ClimateData">Climate Data</option>
-            <option value="Geological_Data">Geological Data</option>
-          </select>
+          <div class="maptype-values" style="margin-left:55px; display:inline-block;">
+            <select id="map_type" name="map_type">
+              <option value="ClimateData">Climate Data</option>
+              <option value="Geological_Data">Geological Data</option>
+            </select>
+          </div>
+         
         </div>
         <div id="#sub_map_type">
           <label for="sub_map_type">Sub Map Type:</label>
-          <select id="sub_map_type" name="sub_map_type">
-            <option value="ClimateData">Temperature</option>
-            <option value="ClimateData">Precipitation</option>
-            <option value="ClimateData">Humidity</option>
-            <option value="Geological_Data">Rocks</option>
-            <option value="Geological_Data">Earthquakes</option>
-            <option value="Geological_Data">Soil Type</option>
-          </select>
+          <div class="submaptype-values" style="margin-left: 20px; display:inline-block; margin-top:20px;">
+            <select id="sub_map_type" name="sub_map_type">
+              <option value="ClimateData">Temperature</option>
+              <option value="ClimateData">Precipitation</option>
+              <option value="ClimateData">Humidity</option>
+              <option value="Geological_Data">Rocks</option>
+              <option value="Geological_Data">Earthquakes</option>
+              <option value="Geological_Data">Soil Type</option>
+            </select>
+          </div>
+          
         </div>
       </div>
       <div id="#dataSource" class="mb-3">
@@ -39,7 +45,7 @@
         <input type="radio" id="jsonFile" name="dataSource" value="jsonFile">
         <label for="jsonFile">JSON File</label><br>
       </div>
-      <button type="button" class="btn btn-primary" id="nextbtn">Next</button>
+      <button type="button" class="btn btn-primary" id="nextbtn" style="position:relative; margin:20px 200px;">Next</button>
     </form>
   </div>
 </div>

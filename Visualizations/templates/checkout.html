@@ -1,0 +1,31 @@
+{%extends 'visualizationsbase.html'%} {%load static%} {%block content%}
+<style>
+  .container {
+    background-color: f0f0f0;
+  }
+  h3,
+  h4 {
+    color: black;
+  }
+</style>
+<div class="container">
+  <div class="row">
+    <div class="col-lg">
+      <br />
+      <img src="{{mapproduct.thumbnail.url}}" />
+    </div>
+    <div class="col-lg">
+      <br />
+      <div class="card card-body">
+        <h3>{{mapproduct.title}}</h3>
+        <hr />
+        <h4>Price : Rs{{mapproduct.price}}</h4>
+        <hr />
+        <!-- <div id="paypal-button-container"></div> -->
+        <span>{{paypal.render}}</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+{%endblock%}

@@ -2,7 +2,7 @@ from django import forms
 from .models import TemperatureMap, HumidityMap, Precipitation, Earthquakes, soilType, mineralContent, Rocks,Geological_Data,ClimateData
 from django.contrib.gis.geos import Point
 from django.contrib.gis.geos import GEOSException
-
+from django.forms import formset_factory
 
 class TemperatureMapForm(forms.ModelForm):
     avgtem = forms.FloatField(label="Temperature", widget=forms.NumberInput(
@@ -75,7 +75,7 @@ class EarthquakesForm(forms.ModelForm):
     depth = forms.FloatField(label="Depth", widget=forms.NumberInput(
         attrs={'class': 'form-control', 'placeholder': 'input depth'}))
 
-
+    
     def clean(self):
         cleaned_data = super().clean()
         epi_lat_long = cleaned_data.get('epiLatLong')
@@ -93,6 +93,7 @@ class EarthquakesForm(forms.ModelForm):
         model = Earthquakes
         # exclude =("earthquakeid","geodataid") #excluding attributes
         fields = ['geodataid', 'dateTime', 'epiLatLong', 'magnitude', 'depth']
+EarthquakesFormSet = formset_factory(EarthquakesForm, extra=1)
 
 class SoilTypeForm(forms.ModelForm):
 

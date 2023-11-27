@@ -41,7 +41,7 @@ class SignUpForm(UserCreationForm):
 
 class CustomUserChangeForm(UserChangeForm):
     username = forms.CharField(
-        label="Email Address",
+        label="Username",
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username'})
     )
     

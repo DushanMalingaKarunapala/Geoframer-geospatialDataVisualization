@@ -28,10 +28,13 @@ urlpatterns = [
     path('', include('Visualizations.urls')),
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
-    path('api/keplergl_earthquakes_map/', EarthquakesMapView.as_view(), name='earthquakes_map'),
-    path('api/keplergl_precipitation_map/', PrecipitationMapView.as_view(), name='precipitation_map'),
-    
-    
+    path('api/keplergl_earthquakes_map/',
+         EarthquakesMapView.as_view(), name='earthquakes_map'),
+    path('api/keplergl_precipitation_map/',
+         PrecipitationMapView.as_view(), name='precipitation_map'),
+    path('', include('paypal.standard.ipn.urls')),
+
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)
