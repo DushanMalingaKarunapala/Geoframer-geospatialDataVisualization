@@ -1,14 +1,13 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900");
-*{
+* {
   padding: 0;
   margin: 0;
   list-style: none;
   text-decoration: none;
 }
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   font-style: none;
-  
 }
 .sidebar {
   position: fixed;
@@ -18,7 +17,7 @@ body {
   width: 250px;
   height: 100%;
   background: hsla(0, 0%, 0%, 0.556);
-  transition: all .5s ease;
+  transition: all 0.5s ease;
   z-index: 1;
 }
 .sidebar header {
@@ -29,7 +28,7 @@ body {
   background: #0793ff;
   user-select: none;
 }
-.sidebar ul a{
+.sidebar ul a {
   display: block;
   height: 100%;
   width: 100%;
@@ -40,34 +39,35 @@ body {
   padding-left: 40px;
   box-sizing: border-box;
   border-bottom: 1px solid black;
-  border-top: 1px solid rgba(255,255,255,.1);
-  transition: .4s;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  transition: 0.4s;
 }
-ul li:hover a{
+ul li:hover a {
   padding-left: 50px;
 }
-.sidebar ul a i{
+.sidebar ul a i {
   margin-right: 16px;
 }
-#check{
+#check {
   display: none;
 }
-label #btn,label #cancel{
+label #btn,
+label #cancel {
   position: absolute;
   background: #042331;
   border-radius: 3px;
   cursor: pointer;
 }
-label #btn{
+label #btn {
   position: fixed;
   left: 40px;
   top: 80px;
   font-size: 35px;
   color: white;
   padding: 6px 12px;
-  transition: all .5s;
+  transition: all 0.5s;
 }
-label #cancel{
+label #cancel {
   position: fixed;
   z-index: 1111;
   left: -195px;
@@ -75,50 +75,49 @@ label #cancel{
   font-size: 30px;
   color: #f90000;
   padding: 4px 9px;
-  transition: all .5s ease;
+  transition: all 0.5s ease;
 }
-#check:checked ~ .sidebar{
+#check:checked ~ .sidebar {
   left: 0;
 }
-#check:checked ~ label #btn{
+#check:checked ~ label #btn {
   left: 250px;
   opacity: 0;
   pointer-events: none;
 }
-#check:checked ~ label #cancel{
+#check:checked ~ label #cancel {
   left: 195px;
 }
-#check:checked ~ section{
+#check:checked ~ section {
   margin-left: 250px;
 }
-section{
+section {
   background: url(bg.jpeg) no-repeat;
   background-position: center;
   background-size: cover;
   height: 100vh;
-  transition: all .5s;
+  transition: all 0.5s;
 }
-.background-image{
+.background-image {
   background-position: center;
   background-size: cover;
 }
 
-.profile{
+.profile {
   margin-right: 30px;
 }
 
-
-.profile-message{
+.profile-message {
   display: inline-block;
   padding-left: 30px;
-  margin:auto 20px;
+  margin: auto 20px;
 
   color: #0091f9;
 }
-.profile-image{
+.profile-image {
   display: inline-block;
   margin-left: 20px;
 }
-.site-header{
+.site-header {
   margin-top: 0;
 }
