@@ -4,6 +4,7 @@ from .views import DownloadMapView
 
 urlpatterns = [
     path('visualizationsHome', views.visualizationsHome, name='visualizationsHome'),
+    path('filteredVisualizations', views.filteredVisualizations, name='filteredVisualizations'),
     path('checkout/<int:pk>/', views.checkout, name="checkout"),
     path('payment-success/<int:pk>/',
          views.payment_successfull, name='payment-success'),

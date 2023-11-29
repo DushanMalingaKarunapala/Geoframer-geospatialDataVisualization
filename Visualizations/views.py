@@ -9,13 +9,45 @@ from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
-from .models import Map
+from .models import Map, MapType, DataType
+from django.db.models import Q
 # Create your views here.
 
 
 def visualizationsHome(request):
+    # Get all map types and data types for filtering
     maps = Map.objects.all()
-    return render(request, 'visualizationsHome.html', {'maps': maps})
+    map_types = MapType.objects.all()
+    data_types = DataType.objects.all()
+    return render(request, 'visualizationsHome.html', {'maps': maps, 'map_types': map_types, 'data_types': data_types})
+
+
+def filteredVisualizations(request):
+    # Get parameters from the request
+    search_keyword = request.GET.get('searchKeyword', '')
+    map_type_filter = request.GET.get('mapTypeFilter', '')
+    data_type_filter = request.GET.get('dataTypeFilter', '')
+    maps = Map.objects.all()
+    # Apply filters based on parameters
+    if search_keyword:
+        # Use Q objects for OR conditions
+        maps = maps.filter(Q(title__icontains=search_keyword))
+    if map_type_filter:
+        maps = maps.filter(map_type__name=map_type_filter)
+
+    if data_type_filter:
+        maps = maps.filter(data_type__name=data_type_filter)
+
+    # Get all map types and data types for filtering
+    map_types = MapType.objects.all()
+    data_types = DataType.objects.all()
+    return render(request, 'visualizationsHome.html', {'maps': maps, 'map_types': map_types, 'data_types': data_types})
+
+
+# def searchandfilter(request):
+#     search_keyword = request.GET.get('searchKeyword', '')
+#     searched_maps = Map.objects.filter(title__icontains=search_keyword)
+#     return render(request, 'visualizationsHome.html', {'searched_maps': searched_maps})
 
 
 def checkout(request, pk):
