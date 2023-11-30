@@ -45,7 +45,7 @@
       </a>
 
       <!-- Default snippet for navigation -->
-      <div class="main-navigation">
+      <!-- <div class="main-navigation">
         <button type="button" class="menu-toggle">
           <i class="fa fa-bars"></i>
         </button>
@@ -54,8 +54,8 @@
             <a href="{% url 'home' %}">Home</a>
           </li>
         </ul>
-        <!-- .menu -->
-      </div>
+        .menu -->
+      <!-- </div> -->
       <!-- .main-navigation -->
 
       <div class="mobile-navigation"></div>
@@ -83,7 +83,7 @@
       </div>
     </div>
   </div>
-  <div class="hero" data-bg-image="{% static 'images/banner.png' %}">
+  <div class="hero" data-bg-image="{% static 'images/sunny.jpg' %}">
     <div class="container">
       <form action="{%url 'result'%}" class="find-location" method="post">
         {% csrf_token%}

@@ -6,7 +6,7 @@ from django.views.decorators.csrf import csrf_exempt
 import json
 import keplergl
 from django.http import HttpResponse
-from .forms import EarthquakesForm, TemperatureMapForm, SoilTypeForm, HumidityMapForm, PrecipitationForm
+from .forms import EarthquakesForm, TemperatureMapForm, SoilTypeForm, HumidityMapForm, PrecipitationForm, WaterBodiesForm
 from django.contrib.gis.geos import Point
 import logging
 from django.utils import timezone
@@ -31,8 +31,9 @@ def Deshome(request):
     humidity = HumidityMapForm()
     temperature_map_form = TemperatureMapForm()
     precipitation_form = PrecipitationForm()
+    waterbody_form = WaterBodiesForm()
     context = {'EarthquakesForm': earthquakes_form, 'TemperatureMapForm': temperature_map_form, 'SoilTypeForm': soil_type_form,
-               'HumidityMapForm': humidity, 'PrecipitationForm': precipitation_form}
+               'HumidityMapForm': humidity, 'PrecipitationForm': precipitation_form, 'WaterBodiesForm':waterbody_form}
     return render(request, "Deshome.html", context)
 
 
@@ -271,6 +272,10 @@ def create_map(request):
 #     return render(request, 'create_map.html')
 
 
+def instance(request):
+    return render(request, "keplergl_map.html")
+
+
 def fetch_climate_data_types(request):
     # Retrieve climate data types from your data source
     climate_data_types = ['Temperature', 'Precipitation', 'Humidity']
@@ -294,6 +299,14 @@ def fetch_geological_data_types(request):
     }
 
     # Return the JSON response
+    return JsonResponse(response_data)
+
+def fetch_hydrological_data_types(request):
+    hydrological_data_types = ['WaterBodies']
+
+    response_data ={
+        'types': hydrological_data_types
+    }
     return JsonResponse(response_data)
 
 
@@ -321,7 +334,7 @@ def get(request):
         # Use request.GET instead of request.POST
         submap_type = request.GET.get('subMapType')
 
-        print("hukapu submaptype : ", submap_type)
+        print(" submaptype : ", submap_type)
 
         # You can process the submap_type as needed
         # For example, save it in session or return it in the response
@@ -336,7 +349,8 @@ class EarthquakesMapView(APIView):
 
     def get(self, request):
 
-        submaptype = request.session.get('submap_type', '')# get the session id
+        submaptype = request.session.get(
+            'submap_type', '')  # get the session id
         print('sub1', submaptype)
 
         if submaptype == "Earthquakes":
@@ -385,7 +399,8 @@ class PrecipitationMapView(APIView):
 
     def get(self, request):
 
-        submaptype = request.session.get('submap_type', '') # get the session id
+        submaptype = request.session.get(
+            'submap_type', '')  # get the session id
         print('sub2', submaptype)
 
         if submaptype == "Precipitation":

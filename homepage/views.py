@@ -7,6 +7,7 @@ from weather_api.views import index, result
 import json
 import requests
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import update_session_auth_hash
 
 
 def home(request):
@@ -64,7 +65,15 @@ def profile(request):
     if request.method == 'POST':
         form = CustomUserChangeForm(request.POST, instance=request.user)
         if form.is_valid():
-            form.save()
+            user = form.save(commit=False)
+
+            # Check if a new password is provided
+            new_password = form.cleaned_data.get('new_password1')
+            if new_password:
+                user.set_password(new_password)
+                # Ensure the user stays logged in after password change
+                update_session_auth_hash(request, user)
+            user.save()
             messages.success(request, 'Profile updated successfully!')
             return redirect('myprofile')
         else:

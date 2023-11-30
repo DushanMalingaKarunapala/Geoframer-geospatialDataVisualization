@@ -17,6 +17,7 @@
             <select id="map_type" name="map_type">
               <option value="ClimateData">Climate Data</option>
               <option value="Geological_Data">Geological Data</option>
+              <option value="Hydro_Data">Hydrological Data</option>
             </select>
           </div>
          
@@ -31,6 +32,7 @@
               <option value="Geological_Data">Rocks</option>
               <option value="Geological_Data">Earthquakes</option>
               <option value="Geological_Data">Soil Type</option>
+              <option value="Hydro_Data">WaterBodies</option>
             </select>
           </div>
           
@@ -114,6 +116,13 @@
         $.get('/fetch_geological_data_types/', function(data) {
           $.each(data.types, function(index, type) {
             subMapTypeDropdown.append('<option value="' + type + '">' + type + '</option>');
+          });
+        });
+      } else if (selectedMapType ==='Hydro_Data'){
+        //Fetch the hydrological data types and populate options
+        $.get('/fetch_hydrological_data_types/', function(data){
+          $.each(data.types, function(index, type){
+            subMapTypeDropdown.append('<option value="'+ type + '">' + type + '</option');
           });
         });
       }
@@ -224,6 +233,16 @@
               </form>
             `;
           }
+        }else if(selectedMapType === 'Hydro_Data'){
+          if(selectedSubMapType==='WaterBodies'){
+            formHTML = `
+              <form id="waterbody_form" method = "post" action ="/create/">
+                {% csrf_token %}
+                {{ WaterBodiesForm.as_p }}
+              </form>
+            `;
+          }
+          
         }
       
         newDataFieldsDiv.innerHTML = formHTML;
@@ -231,11 +250,10 @@
       
          
       
-      else if (selectedDataSource === 'csvFile') {
-        csvFileModal.style.display = 'block';
-      } else if (selectedDataSource === 'jsonFile') {
-        jsonFileModal.style.display = 'block';
-      }
+      else if (selectedDataSource === 'csvFile' || selectedDataSource === 'jsonFile') {
+        var instanceUrl = '{% url "instance" %}';
+        window.location.href = instanceUrl;
+    }
     });
 
     for (var i = 0; i < span.length; i++) {
@@ -336,7 +354,7 @@
               actionUrl = '{% url "precipitation_map" %}';
           } else {
               // Handle other submap types if needed
-              message = 'Data successfully saved yakooooo! Do you want to generate the visualization?';
+              message = 'Data successfully saved ! Do you want to generate the visualization?';
               actionUrl = '#';  // Default action
           }
   
@@ -357,7 +375,7 @@
           setInterval(function(){
             $('.alert').fadeOut();
           },5000)
-          console.log('ballige puta')// Handle success response
+          console.log('success')// Handle success response
           
         
         },
@@ -371,6 +389,23 @@
     // ...
   });
   
+
+  // Add this function to your existing JavaScript
+function initializeKeplerGl() {
+  const KeplerGl = window.KeplerGl;
+  
+  // You might need to customize this configuration based on your needs
+  const config = {
+      mapState: {
+          latitude: 37.7749,
+          longitude: -122.4194,
+          zoom: 11,
+      },
+  };
+
+  const keplerInstance = new KeplerGl('kepler-gl-map', config);
+}
+
 
 
 

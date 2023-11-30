@@ -3,14 +3,12 @@ from django.contrib.auth.models import User
 from django.contrib.gis.db import models
 
 
-
 class Maps(models.Model):
-    mapid= models.CharField(primary_key=True)
+    mapid = models.CharField(primary_key=True)
     id = models.ForeignKey(User, on_delete=models.CASCADE)
     type = models.CharField(max_length=100)
     created_at = models.DateTimeField()
     updated_at = models.DateTimeField()
-
 
     def save(self, *args, **kwargs):
         if not self.mapid:
@@ -21,7 +19,7 @@ class Maps(models.Model):
             else:
                 new_id = 'mp1'
             self.mapid = new_id
-        super().save(*args, **kwargs) 
+        super().save(*args, **kwargs)
 
 
 class ClimateData(models.Model):
@@ -44,10 +42,10 @@ class ClimateData(models.Model):
 class TemperatureMap(models.Model):
     temId = models.CharField(primary_key=True)
     climateId = models.ForeignKey(ClimateData, on_delete=models.CASCADE)
-    avgtem= models.FloatField()
+    avgtem = models.FloatField()
     maxtem = models.FloatField()
     mintem = models.FloatField()
-    date =models.DateField()
+    date = models.DateField()
     latlongTemp = models.PointField()
 
     def save(self, *args, **kwargs):
@@ -69,7 +67,6 @@ class HumidityMap(models.Model):
     latlongHum = models.PointField()
     date = models.DateField()
 
-
     def save(self, *args, **kwargs):
         if not self.humId:
             last_id = HumidityMap.objects.order_by('-humId').first()
@@ -79,7 +76,7 @@ class HumidityMap(models.Model):
             else:
                 new_id = 'hum1'
             self.humId = new_id
-        super().save(*args, **kwargs) 
+        super().save(*args, **kwargs)
 
 
 class Precipitation(models.Model):
@@ -98,7 +95,7 @@ class Precipitation(models.Model):
             else:
                 new_id = 'prec1'
             self.precipId = new_id
-        super().save(*args, **kwargs) 
+        super().save(*args, **kwargs)
 
 
 # geological map models
@@ -121,7 +118,8 @@ class Geological_Data(models.Model):
 
 class Earthquakes(models.Model):
     earthquakeid = models.CharField(max_length=10, primary_key=True,)
-    geodataid = models.ForeignKey(Geological_Data, on_delete=models.CASCADE,related_name='earthquakes')
+    geodataid = models.ForeignKey(
+        Geological_Data, on_delete=models.CASCADE, related_name='earthquakes')
     dateTime = models.DateTimeField()
     epiLatLong = models.PointField()
     magnitude = models.FloatField()
@@ -159,6 +157,7 @@ class soilType(models.Model):
             self.soiltypeid = new_id
         super().save(*args, **kwargs)
 
+
 class mineralContent(models.Model):
     minctid = models.CharField(max_length=10, primary_key=True)
     geodataid = models.ForeignKey(Geological_Data, on_delete=models.CASCADE)
@@ -176,8 +175,7 @@ class mineralContent(models.Model):
             else:
                 new_id = 'minct1'
             self.minctid = new_id
-        super().save(*args, **kwargs)        
-
+        super().save(*args, **kwargs)
 
 
 class Rocks(models.Model):
@@ -197,7 +195,42 @@ class Rocks(models.Model):
             else:
                 new_id = 'rock1'
             self.rockid = new_id
-        super().save(*args, **kwargs)        
-        
+        super().save(*args, **kwargs)
 
-        
+
+class HydroData(models.Model):
+    hydrodataid = models.CharField(primary_key=True)
+    mapid = models.ForeignKey(Maps, on_delete=models.CASCADE)
+    hydromaptype = models.CharField(max_length=50)
+
+    def save(self, *args, **kwargs):
+        if not self.hydrodataid:
+            last_id = HydroData.objects.order_by('-hydrodataid').first()
+            if last_id:
+                last_id_number = int(last_id.hydrodataid[5:])
+                new_id = 'hydro' + str(last_id_number + 1)
+            else:
+                new_id = 'hydro1'
+            self.hydrodataid = new_id
+        super().save(*args, **kwargs)
+
+
+class WaterBodies(models.Model):
+    waterbodyid = models.CharField(max_length=10, primary_key=True)
+    hydrodataid = models.ForeignKey(HydroData, on_delete=models.CASCADE)
+    geometry = models.PolygonField(srid=4326, geography=True, null=False)
+    typeofwaterbody = models.CharField(max_length=100)
+    area = models.FloatField(null=True)
+    max_volume = models.FloatField(null=True)
+    city = models.CharField(null=True)
+
+    def save(self, *args, **kwargs):
+        if not self.waterbodyid:
+            last_id = WaterBodies.objects.order_by('-waterbodyid').first()
+            if last_id:
+                last_id_number = int(last_id.waterbodyid[11:])
+                new_id = 'waterbd' + str(last_id_number + 1)
+            else:
+                new_id = 'waterbd1'
+            self.rockid = new_id
+        super().save(*args, **kwargs)

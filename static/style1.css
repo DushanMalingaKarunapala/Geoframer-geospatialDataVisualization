@@ -1715,11 +1715,11 @@ form input[type="reset"] {
   transition: 0.3s ease;
   font-weight: 400;
 }
-.main-navigation .menu .menu-item.current-menu-item a,
+/* .main-navigation .menu .menu-item.current-menu-item a,
 .main-navigation .menu .menu-item:hover a {
   border-color: #009ad8;
   color: #009ad8;
-}
+} */
 
 .mobile-navigation {
   padding: 30px 0 0;
