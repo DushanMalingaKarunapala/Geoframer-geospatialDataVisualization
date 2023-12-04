@@ -14,7 +14,7 @@ urlpatterns = [
          name='fetch_geological_data_types'),
     path('fetch_hydrological_data_types/', views.fetch_hydrological_data_types,
          name='fetch_hydrological_data_types'),
-    path('get/', views.get, name='get')
+    
 
 
     # path('keplergl_map/', views.keplergl_map, name='keplergl_map'),

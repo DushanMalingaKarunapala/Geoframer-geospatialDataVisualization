@@ -138,23 +138,45 @@ class RocksForm(forms.ModelForm):
 class WaterBodiesForm(forms.ModelForm):
     hydrodataid = forms.ModelChoiceField(
         queryset=HydroData.objects.all(), required=False, empty_label='Select HydroData')
-    geometry = forms.CharField(label="Geometry", widget=forms.TextInput(
-        attrs={'class': 'form-control', 'placeholder': 'Input polygon coordinates'}))
+    name = forms.CharField(label="Name", widget=forms.TextInput(
+        attrs={'class': 'form-control',
+               'placeholder': 'input the name of the waterbody'}
+    ))
+    geometry = forms.CharField(label="Geometry", widget=forms.Textarea(
+        attrs={'class': 'form-control', 'placeholder': 'Input polygon coordinates ex: -73.961373 40.79853, -73.961404 40.798447, -73.961419 40.798384, -73.961392 40.798368...'}))
     typeofwaterbody = forms.CharField(label="Type of Water Body", widget=forms.TextInput(
         attrs={'class': 'form-control', 'placeholder': 'Input type of water body'}))
     area = forms.FloatField(label="Area", widget=forms.NumberInput(
         attrs={'class': 'form-control', 'placeholder': 'Input area'}))
     max_volume = forms.FloatField(label="Max Volume", widget=forms.NumberInput(
         attrs={'class': 'form-control', 'placeholder': 'Input max volume'}))
+    city = forms.CharField(label="City" , widget=forms.TextInput(
+        attrs={'class': 'form-control',
+               'placeholder': 'City'}
+    ))
 
     def clean(self):
         cleaned_data = super().clean()
         geometry = cleaned_data.get('geometry')
         if geometry:
             try:
-                # Convert the input coordinates to a Polygon
-                polygon = GEOSGeometry(f'POLYGON(({geometry}))')
+                # Split the input into pairs of coordinates
+                coordinates = [tuple(map(float, pair.split()))
+                               for pair in geometry.split(',')]
+
+                # Ensure the first and last coordinates are the same (closing the polygon)
+                if coordinates[0] != coordinates[-1]:
+                    coordinates.append(coordinates[0])
+
+                # Create the WKT Polygon
+                polygon_wkt = f'POLYGON(({", ".join(f"{x} {y}" for x, y in coordinates)}))'
+
+                # Convert the WKT to a Polygon
+                polygon = GEOSGeometry(polygon_wkt)
                 cleaned_data['geometry'] = polygon
+            except ValueError as ve:
+                self.add_error(
+                    'geometry', f'Invalid geometry format. Error: {str(ve)}')
             except Exception as e:
                 self.add_error(
                     'geometry', f'Invalid geometry format. Error: {str(e)}')

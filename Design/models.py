@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.contrib.gis.db import models
+from django.utils import timezone
 
 
 class Maps(models.Model):
@@ -216,8 +217,9 @@ class HydroData(models.Model):
 
 
 class WaterBodies(models.Model):
-    waterbodyid = models.CharField(max_length=10, primary_key=True)
+    waterbodyid = models.CharField(max_length=20, primary_key=True)
     hydrodataid = models.ForeignKey(HydroData, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100, null=True, default='none')
     geometry = models.PolygonField(srid=4326, geography=True, null=False)
     typeofwaterbody = models.CharField(max_length=100)
     area = models.FloatField(null=True)
@@ -228,9 +230,9 @@ class WaterBodies(models.Model):
         if not self.waterbodyid:
             last_id = WaterBodies.objects.order_by('-waterbodyid').first()
             if last_id:
-                last_id_number = int(last_id.waterbodyid[11:])
+                last_id_number = int(last_id.waterbodyid[7:])
                 new_id = 'waterbd' + str(last_id_number + 1)
             else:
                 new_id = 'waterbd1'
-            self.rockid = new_id
+            self.waterbodyid = new_id
         super().save(*args, **kwargs)

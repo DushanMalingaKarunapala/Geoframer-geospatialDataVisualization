@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import ClimateData, Geological_Data, Earthquakes, Maps, User, TemperatureMap, HumidityMap, Precipitation
+from .models import *
 from django.contrib.sessions.models import Session
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -16,8 +16,8 @@ from keplergl import KeplerGl
 from django.core.serializers import serialize
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .serializers import EarthquakeSerializer, PrecipitationSerializer, CommonDataSerializer
-from rest_framework import generics
+from .serializers import *
+from rest_framework import generics, status
 logger = logging.getLogger(__name__)
 
 
@@ -33,7 +33,7 @@ def Deshome(request):
     precipitation_form = PrecipitationForm()
     waterbody_form = WaterBodiesForm()
     context = {'EarthquakesForm': earthquakes_form, 'TemperatureMapForm': temperature_map_form, 'SoilTypeForm': soil_type_form,
-               'HumidityMapForm': humidity, 'PrecipitationForm': precipitation_form, 'WaterBodiesForm':waterbody_form}
+               'HumidityMapForm': humidity, 'PrecipitationForm': precipitation_form, 'WaterBodiesForm': waterbody_form}
     return render(request, "Deshome.html", context)
 
 
@@ -234,10 +234,92 @@ def create_map(request):
                 # Handle form submission
                 return JsonResponse({'errors': form_errors}, status=400)
 
+        elif map_type == 'Hydro_Data' and sub_map_type == 'WaterBodies' and data_source == 'newData':
+            user = request.user
+            watebody_name = request.POST.get('name')
+            waterbody_type = request.POST.get('typeofwaterbody')
+            geometry_input = request.POST.get('geometry')
+            area = request.POST.get('area')
+            print("area", area)
+
+            maxvolume = request.POST.get('max_volume')
+            print("maxvol", maxvolume)
+            form = WaterBodiesForm(request.POST)
+
+            # Split the input into pairs of coordinates
+            coordinates = [tuple(map(float, pair.split()))
+                           for pair in geometry_input.split(',')]
+
+            # Ensure the first and last coordinates are the same (closing the polygon)
+            if coordinates[0] != coordinates[-1]:
+                coordinates.append(coordinates[0])
+
+            # Create the WKT Polygon
+            polygon_wkt = f'POLYGON(({", ".join(f"{x} {y}" for x, y in coordinates)}))'
+
+            print(polygon_wkt)
+
+            if form.is_valid():
+                if form.cleaned_data['hydrodataid']:
+                    # user selected an existing hydrodataobject
+                    hydrodata = form.cleaned_data['hydrodataid']
+                    maps = hydrodata.mapid
+
+                    waterbodies = WaterBodies.objects.create(
+                        name=watebody_name,
+                        hydrodataid=hydrodata,
+                        geometry=polygon_wkt,
+                        maxvolume=maxvolume,
+                        area=area,
+                    )
+
+                    hydrodata.save()  # save hydrodata object
+                    maps.save()
+                    messages.success(
+                        request, "Data added successfully. Do you want to visualize the map?")
+                    return render(request, "Deshome.html")
+            else:
+
+                # user chose to  create new hydro data map object
+                user = request.user
+                # create a map object for hydrodata in Maps model
+                maps = Maps.objects.create(
+                    id=user, type="hydrodata", created_at=timezone.now(), updated_at=timezone.now()
+                )
+                # create a hydrodata object for waterbodies in hydrodata model
+                hydrodata = HydroData.objects.create(
+                    mapid=maps, hydromaptype='WaterBodies'
+                )
+
+                form.instance.hydrodataid = hydrodata
+
+                # create the waterbody object
+
+                waterbodies = WaterBodies.objects.create(
+                    name=watebody_name,
+                    hydrodataid=hydrodata,
+                    geometry=polygon_wkt,
+                    max_volume=maxvolume,
+                    area=area,
+                )
+                hydrodata.save()
+                maps.save()
+                messages.success(
+                    request, "Data added successfully. Do you want to visualize the map?")
+
+                return render(request, "Deshome.html")
         else:
-            return HttpResponse("Data is not valid")
-        request_data = request.POST.get('requestData')
-        print(request_data)
+            logger.error(form.errors.as_data())
+
+            form_errors = form.errors.get_json_data(escape_html=True)
+            # Handle form submission
+            return JsonResponse({'errors': form_errors}, status=400)
+
+    # else:
+    #     print("form errorrrr", form.errors)
+    #     return HttpResponse("Data is not valid")
+    #     request_data = request.POST.get('requestData')
+    #     print(request_data)
 
         # maps = Maps.objects.create(id=request.user, type=map_type)
         # maps.save()
@@ -301,10 +383,11 @@ def fetch_geological_data_types(request):
     # Return the JSON response
     return JsonResponse(response_data)
 
+
 def fetch_hydrological_data_types(request):
     hydrological_data_types = ['WaterBodies']
 
-    response_data ={
+    response_data = {
         'types': hydrological_data_types
     }
     return JsonResponse(response_data)
@@ -334,11 +417,12 @@ def get(request):
         # Use request.GET instead of request.POST
         submap_type = request.GET.get('subMapType')
 
-        print(" submaptype : ", submap_type)
+        print(" session selected submaptype : ", submap_type)
 
         # You can process the submap_type as needed
         # For example, save it in session or return it in the response
         request.session['submap_type'] = submap_type
+
         return JsonResponse({'submap_type': submap_type})
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=400)
@@ -372,26 +456,11 @@ class EarthquakesMapView(APIView):
                 # Handle any exceptions and return an error response
                 return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         else:
-            return HttpResponse("ane hukahan")
+            return HttpResponse("Not selected'")
 
     def post(self, request):
-        answer = request.POST.get('answer')
-        sub_map_type = request.POST.get('sub_map_type')
 
-        if answer == 'yes':
-            if sub_map_type == 'Earthquakes':
-                # Fetch Earthquakes GeoJSON data
-                data = Earthquakes.objects.all()
-                serializer = self.serializer_class(data, many=True)
-                egeojson_data = {
-                    "type": "FeatureCollection",
-                    "features": serializer.data
-                }
-                return Response({'egeojson_data': egeojson_data})
-
-            # Add more conditions for other sub-map types
-
-            return render(request, 'keplergl_map.html')
+        return render(request, 'keplergl_map.html')
 
 
 class PrecipitationMapView(APIView):
@@ -421,23 +490,50 @@ class PrecipitationMapView(APIView):
                 # Handle any exceptions and return an error response
                 return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         else:
-            return HttpResponse('ane hukaan')
+            return HttpResponse('Not selected')
+
+    def post(self, request):
+
+        return render(request, 'keplergl_map.html')
+
+
+class WaterBodiesMapView(APIView):
+    serializer_class = WaterBodiesSerializer
+
+    def get(self, request):
+        submaptype = request.session.get(
+            'submap_type', '')
+        print("sub3", submaptype)
+
+        if submaptype == "WaterBodies":
+
+            try:
+                data = WaterBodies.objects.all()
+
+                serializer = self.serializer_class(data, many=True)
+                wgeojson_data = {
+                    "type": "FeatureCollection",
+                    "features": serializer.data
+                }
+
+                return Response({'wgeojson_data': wgeojson_data})
+            except Exception as e:
+                return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        else:
+            return HttpResponse("not selected")
 
     def post(self, request):
         answer = request.POST.get('answer')
         sub_map_type = request.POST.get('sub_map_type')
 
         if answer == 'yes':
-            if sub_map_type == 'Precipitation':
-                # Fetch Precipitation GeoJSON data
-                data = Precipitation.objects.all()
+            if sub_map_type == 'WaterBodies':
+                data = WaterBodies.objects.all()
                 serializer = self.serializer_class(data, many=True)
-                pgeojson_data = {
+                waterbodygeojson_data = {
                     "type": "FeatureCollection",
                     "features": serializer.data
                 }
-                return Response({'pgeojson_data': pgeojson_data})
-
-            # Add more conditions for other sub-map types
-
+                return Response({'waterbodygeojson_data': waterbodygeojson_data})
             return render(request, 'keplergl_map.html')

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Maps,ClimateData,TemperatureMap,HumidityMap,Precipitation,Geological_Data,Rocks,soilType,Earthquakes,mineralContent
+from .models import *
 
 # Register your models here.
 
@@ -12,4 +12,5 @@ admin.site.register(Geological_Data)
 admin.site.register(Earthquakes)
 admin.site.register(soilType)
 admin.site.register(mineralContent)
-
+admin.site.register(HydroData)
+admin.site.register(WaterBodies)

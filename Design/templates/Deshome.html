@@ -5,7 +5,7 @@
 <div id="keplergl_map"></div>
 <div id="myModal" class="modal">
   <div id="success-messages" style="width: 800px; margin-left:550px; margin-top: 10px; display:block;"></div>
-  <div class="modal-content" style="height: fit-content; margin-top:  100px; margin-bottom:100px">
+  <div class="modal-content" style="height: fit-content; margin-top:  50px; margin-bottom:100px">
     <span class="close">&times;</span>
     <p>Please choose which type of map you want to create and select a data source:</p>
     <form id="mapForm" >
@@ -233,7 +233,7 @@
               </form>
             `;
           }
-        }else if(selectedMapType === 'Hydro_Data'){
+        } else if(selectedMapType === 'Hydro_Data'){
           if(selectedSubMapType==='WaterBodies'){
             formHTML = `
               <form id="waterbody_form" method = "post" action ="/create/">
@@ -352,6 +352,9 @@
           } else if (submapTypebro === 'Precipitation') {
               message = 'Precipitation data successfully saved! Do you want to generate the visualization?';
               actionUrl = '{% url "precipitation_map" %}';
+          } else if (submapTypebro === 'WaterBodies'){
+              message = 'WaterBodies data successfully saved! Do you want to generate the visualization?';
+              actionUrl ='{% url "waterbodies_map" %}';
           } else {
               // Handle other submap types if needed
               message = 'Data successfully saved ! Do you want to generate the visualization?';
