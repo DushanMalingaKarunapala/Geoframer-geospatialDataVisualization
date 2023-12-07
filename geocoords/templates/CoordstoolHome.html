@@ -1,0 +1,49 @@
+{% extends 'basecoords.html' %} {% block content%} {%include 'navbar.html'%}
+
+<body style="height: 100vh">
+  <div
+    class="modal fade custom-modal"
+    id="myModal"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content" style="width: 500px">
+        <!-- Modal Body -->
+        <div class="modal-body">
+          <h5 class="modal-title mb-4" id="exampleModalLabel">
+            Choose an Action
+          </h5>
+          <!-- Three big buttons -->
+          <div class="d-flex justify-content-around">
+            <a href="{% url 'polygontool' %}"
+              ><button type="button" class="btn btn-primary custom-button">
+                Polygon Tool
+              </button></a
+            >
+            <a href="{% url 'polylinetool' %}"
+              ><button type="button" class="btn btn-secondary custom-button">
+                Polyline Tool
+              </button></a
+            >
+
+            <a href="{% url 'pointtool' %}"
+              ><button type="button" class="btn btn-success custom-button">
+                Point tool
+              </button></a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {%include 'footer.html'%}
+</body>
+<script>
+  $(document).ready(function () {
+    $("#myModal").modal("show");
+  });
+</script>
+{% endblock %}

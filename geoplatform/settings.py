@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'django.contrib.gis',
     'rest_framework',
     'paypal.standard.ipn',
+    'geocoords.apps.GeocoordsConfig',
 
 
 

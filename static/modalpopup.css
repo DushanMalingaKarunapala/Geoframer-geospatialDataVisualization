@@ -1,0 +1,28 @@
+/* Customize the modal appearance */
+.custom-modal {
+  text-align: center;
+  top: 0;
+}
+
+.custom-modal .modal-dialog {
+  width: 5000px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.custom-modal .modal-content {
+  margin: 20px;
+  width: 800px !important;
+  height: 400px;
+  padding: 20px;
+  text-align: center;
+}
+
+.custom-button {
+  width: 200px;
+  height: 80px;
+  font-size: 18px;
+  margin: 10px;
+}

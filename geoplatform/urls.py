@@ -26,6 +26,7 @@ urlpatterns = [
     path('', include('Design.urls')),
     path('', include('ThirdDimensionModels.urls')),
     path('', include('Visualizations.urls')),
+    path('', include('geocoords.urls')),
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
     path('get/', views.get, name='get'),

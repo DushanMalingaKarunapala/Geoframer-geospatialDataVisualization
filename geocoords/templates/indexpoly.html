@@ -1,0 +1,104 @@
+{% extends 'basecoords.html' %} {% block content %} {% load static %}
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Polygon Coordinates Tool</title>
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+      }
+
+      h2 {
+        color: #333;
+        text-align: center;
+        margin-top: 100px;
+      }
+
+      h3 {
+        color: #555;
+        text-align: center;
+        margin-top: 10px;
+      }
+
+      #map-canvas {
+        height: 600px;
+        margin: 20px auto;
+        border: 2px solid #ddd;
+      }
+
+      .lngLat {
+        text-align: center;
+        margin-bottom: 10px;
+      }
+
+      .lngLat span {
+        color: #777;
+        margin: 0 5px;
+      }
+      .button {
+        display: inline-block;
+        position: relative;
+        left: 45%;
+        background: none;
+      }
+
+      #clipboard-btn {
+        display: block;
+        margin: 0 auto;
+        padding: 10px;
+        font-size: 16px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      #clipboard-btn:hover {
+        background-color: #45a049;
+      }
+
+      #info {
+        display: block;
+        margin: 20px auto;
+        width: 100%;
+        height: 200px;
+        padding: 10px;
+        resize: none;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 14px;
+        color: #333;
+      }
+    </style>
+  </head>
+  <body onload="initialize()">
+    {%include 'navbar.html'%}
+    <h2>Polygon Coordinates Tool</h2>
+    <h3>Drag or re-shape for coordinates to display below</h3>
+
+    <div id="map-canvas"></div>
+    <div class="lngLat">
+      <span class="one">Lat</span><span class="two">,Lng</span>
+    </div>
+
+    <textarea id="info"></textarea>
+    <div class="button">
+      <button
+        id="clipboard-btn"
+        onclick="copyToClipboard(document.getElementById('info').innerHTML)"
+      >
+        Copy to Clipboard
+      </button>
+    </div>
+    {%include 'footer.html'%}
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBP7tHExllC1LeOsKr89OMNmI4IBrwfvXo&v=3.exp&sensor=false"></script>
+    <script src="{% static 'scriptpoly.js' %}"></script>
+  </body>
+</html>
+{% endblock %}
