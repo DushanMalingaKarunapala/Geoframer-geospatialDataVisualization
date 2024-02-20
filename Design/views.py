@@ -18,6 +18,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from .serializers import *
 from rest_framework import generics, status
+
+from Design import apikey
 logger = logging.getLogger(__name__)
 
 
@@ -26,6 +28,7 @@ def is_ajax(request):
 
 
 def Deshome(request):
+    mapboxkey = apikey.API_KEY
     soil_type_form = SoilTypeForm()
     earthquakes_form = EarthquakesForm()
     humidity = HumidityMapForm()
@@ -33,7 +36,7 @@ def Deshome(request):
     precipitation_form = PrecipitationForm()
     waterbody_form = WaterBodiesForm()
     context = {'EarthquakesForm': earthquakes_form, 'TemperatureMapForm': temperature_map_form, 'SoilTypeForm': soil_type_form,
-               'HumidityMapForm': humidity, 'PrecipitationForm': precipitation_form, 'WaterBodiesForm': waterbody_form}
+               'HumidityMapForm': humidity, 'PrecipitationForm': precipitation_form, 'WaterBodiesForm': waterbody_form , 'mapboxkey': mapboxkey}
     return render(request, "Deshome.html", context)
 
 

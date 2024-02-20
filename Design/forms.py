@@ -145,12 +145,12 @@ class WaterBodiesForm(forms.ModelForm):
     geometry = forms.CharField(label="Geometry", widget=forms.Textarea(
         attrs={'class': 'form-control', 'placeholder': 'Input polygon coordinates ex: -73.961373 40.79853, -73.961404 40.798447, -73.961419 40.798384, -73.961392 40.798368...'}))
     typeofwaterbody = forms.CharField(label="Type of Water Body", widget=forms.TextInput(
-        attrs={'class': 'form-control', 'placeholder': 'Input type of water body'}))
+        attrs={'class': 'form-control', 'placeholder': 'ex: Lake Reservior etc..'}))
     area = forms.FloatField(label="Area", widget=forms.NumberInput(
         attrs={'class': 'form-control', 'placeholder': 'Input area'}))
     max_volume = forms.FloatField(label="Max Volume", widget=forms.NumberInput(
-        attrs={'class': 'form-control', 'placeholder': 'Input max volume'}))
-    city = forms.CharField(label="City" , widget=forms.TextInput(
+        attrs={'class': 'form-control', 'placeholder': 'ex: Acre Foot'}))
+    city = forms.CharField(label="City", widget=forms.TextInput(
         attrs={'class': 'form-control',
                'placeholder': 'City'}
     ))
@@ -185,5 +185,5 @@ class WaterBodiesForm(forms.ModelForm):
 
     class Meta:
         model = WaterBodies
-        fields = ['hydrodataid', 'geometry',
-                  'typeofwaterbody', 'area', 'max_volume']
+        fields = ['hydrodataid', 'name',
+                  'geometry', 'typeofwaterbody', 'area', 'max_volume', 'city']

@@ -1,14 +1,25 @@
 from django.shortcuts import render, redirect
+from geocoords import googlekey
+
+
+key = googlekey.GOOGLE_API_KEY
 
 
 def coordstoolhome(request):
-    return render(request, "CoordstoolHome.html")
+    context = {'key': key}
+    return render(request, "CoordstoolHome.html", context)
+
 
 def polygontool(request):
-    return render(request,"indexpoly.html")
+    context = {'key': key}
+    return render(request, "indexpoly.html", context)
+
 
 def polylinetool(request):
-    return render(request, "indexline.html")
+    context = {'key': key}
+    return render(request, "indexline.html", context)
+
 
 def pointtool(request):
-    return render(request, "indexpoint.html")
+    context = {'key': key}
+    return render(request, "indexpoint.html", context)

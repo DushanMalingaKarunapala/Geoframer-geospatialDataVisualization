@@ -5,3 +5,5 @@ db.sqlite3
 0-starting-code/node_modules
 static/OwlCarousel2-2.3.4
 media
+Design/apikey.py
+geocoords/googlekey.py

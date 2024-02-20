@@ -1,6 +1,7 @@
 //var myPolygon;
 function initialize() {
   // Map Center
+  //7.448399,80.383500
   var myLatLng = new google.maps.LatLng(33.5190755, -111.9253654);
   // General Options
   var mapOptions = {

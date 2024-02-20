@@ -221,10 +221,11 @@ class WaterBodies(models.Model):
     hydrodataid = models.ForeignKey(HydroData, on_delete=models.CASCADE)
     name = models.CharField(max_length=100, null=True, default='none')
     geometry = models.PolygonField(srid=4326, geography=True, null=False)
-    typeofwaterbody = models.CharField(max_length=100)
+    typeofwaterbody = models.CharField(
+        max_length=100, null=True, default='none')
     area = models.FloatField(null=True)
-    max_volume = models.FloatField(null=True)
-    city = models.CharField(null=True)
+    max_volume = models.FloatField(null=True)   
+    city = models.CharField(max_length=100, null=True)
 
     def save(self, *args, **kwargs):
         if not self.waterbodyid:

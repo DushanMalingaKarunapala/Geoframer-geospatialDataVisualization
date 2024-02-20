@@ -1,98 +1,113 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'style.css' %}">
-    <link rel="stylesheet" href="{% static 'styledesign.css' %}">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>   
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"/>
-    <link href="http://fonts.googleapis.com/css?family=Roboto:300,400,700|" rel="stylesheet" type="text/css">
-    <link href="{% static 'fonts/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/fontawesome.min.css"/>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>   
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'style.css' %}" />
+    <link rel="stylesheet" href="{% static 'styledesign.css' %}" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <link
+      href="http://fonts.googleapis.com/css?family=Roboto:300,400,700|"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      href="{% static 'fonts/font-awesome.min.css' %}"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/fontawesome.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js'></script>
-    <link href='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css' rel='stylesheet' />
-    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.2/mapbox-gl-draw.js'></script>
-    <link href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.2/mapbox-gl-draw.css' rel='stylesheet' />
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js"></script>
+    <link
+      href="https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css"
+      rel="stylesheet"
+    />
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.2/mapbox-gl-draw.js"></script>
+    <link
+      href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-draw/v1.2.2/mapbox-gl-draw.css"
+      rel="stylesheet"
+    />
     <script src="{% static 'kepler-gl/kepler-gl.js' %}"></script>
     <script src="{% static 'js/store.js' %}"></script>
-</head>
-<body>
-    {%include 'navbar.html'%}
-    {%block content%}
-    {%endblock%}
-    
+  </head>
+  <body>
+    {%include 'navbar.html'%} {%block content%} {%endblock%}
 
     <script>
-        mapboxgl.accessToken = 'pk.eyJ1IjoiZHVzaGFuZm9ycmVzdCIsImEiOiJjbGgzcG9zNDcxcDJ6M2ZwNGtsbzA0YWZjIn0.1GPhrHc-CThHA0kMUVi-vA';
-        var map = new mapboxgl.Map({
-            container: 'map',
-            style: 'mapbox://styles/mapbox/dark-v11'
-        });
+      mapboxgl.accessToken = "{{mapboxkey}}";
+      var map = new mapboxgl.Map({
+        container: "map",
+        style: "mapbox://styles/mapbox/dark-v11",
+      });
     </script>
 
     <script>
-        var drawOptions = {
-            displayControlsDefault: false,
-            controls: {
-              polygon: true,
-              trash: true
+      var drawOptions = {
+        displayControlsDefault: false,
+        controls: {
+          polygon: true,
+          trash: true,
+        },
+        styles: [
+          {
+            id: "gl-draw-polygon-fill",
+            type: "fill",
+            paint: {
+              "fill-color": "#fbb03b",
+              "fill-opacity": 0.1,
             },
-            styles: [
-              {
-                "id": "gl-draw-polygon-fill",
-                "type": "fill",
-                "paint": {
-                  "fill-color": "#fbb03b",
-                  "fill-opacity": 0.1
-                }
-              },
-              {
-                "id": "gl-draw-polygon-stroke-active",
-                "type": "line",
-                "paint": {
-                  "line-color": "#fbb03b",
-                  "line-dasharray": [0.2, 2],
-                  "line-width": 2,
-                  "line-opacity": 1
-                }
-              }
-            ]
-          };
-          
-        var draw = new MapboxDraw(drawOptions);
-        map.addControl(draw);
-        
-        map.on('draw.create', function(e) {
-            // Do something with the new feature
-        });
+          },
+          {
+            id: "gl-draw-polygon-stroke-active",
+            type: "line",
+            paint: {
+              "line-color": "#fbb03b",
+              "line-dasharray": [0.2, 2],
+              "line-width": 2,
+              "line-opacity": 1,
+            },
+          },
+        ],
+      };
 
-        map.on('load', function() {
-            draw.add({ type: 'Point', coordinates: [0, 0]});
-          });
+      var draw = new MapboxDraw(drawOptions);
+      map.addControl(draw);
+
+      map.on("draw.create", function (e) {
+        // Do something with the new feature
+      });
+
+      map.on("load", function () {
+        draw.add({ type: "Point", coordinates: [0, 0] });
+      });
     </script>
 
-
-
-
     <script>
-
-     
-
-      var modalObject = document.getElementById("myModal")
+      var modalObject = document.getElementById("myModal");
       var spanObject = document.getElementsByClassName("close")[0];
       <!-- var modalSubmitBtn = document.getElementById("modalSubmitBtn"); -->
       var map_type = document.getElementById("map_type");
       var fileModal = document.getElementById("fileModal");
-      var uploadBtn = document.getElementById("uploadBtn"); 
+      var uploadBtn = document.getElementById("uploadBtn");
 
-
-     /* $(document).ready(function() {
+      /* $(document).ready(function() {
         // Show the modal when the page loads
         $('#myModal').modal('show');
       
@@ -111,17 +126,6 @@
       
         });
       });*/
-       
-            
-      
-
-
-
-
-     
-             
-
     </script>
-
-</body>
+  </body>
 </html>

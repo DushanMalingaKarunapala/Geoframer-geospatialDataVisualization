@@ -12,7 +12,7 @@ body {
 .sidebar {
   position: fixed;
   font-style: none;
-  top: 55px;
+  top: 100px;
   left: -250px;
   width: 250px;
   height: 100%;
@@ -61,7 +61,7 @@ label #cancel {
 label #btn {
   position: fixed;
   left: 40px;
-  top: 80px;
+  top: 115px;
   font-size: 35px;
   color: white;
   padding: 6px 12px;
@@ -71,7 +71,7 @@ label #cancel {
   position: fixed;
   z-index: 1111;
   left: -195px;
-  top: 65px;
+  top: 105px;
   font-size: 30px;
   color: #f90000;
   padding: 4px 9px;

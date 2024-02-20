@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+# from Design import apikey
+
+# MAPBOX_ACCESS_TOKEN = apikey.API_KEY
 
 if os.name == 'nt':
     VENV_BASE = os.environ['VIRTUAL_ENV']

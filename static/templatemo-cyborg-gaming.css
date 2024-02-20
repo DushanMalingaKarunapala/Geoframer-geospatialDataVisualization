@@ -451,6 +451,7 @@ Header Style
 
 .header-area .main-nav #search {
   position: relative;
+  margin-left: 300px;
 }
 
 .header-area .main-nav #search input {
